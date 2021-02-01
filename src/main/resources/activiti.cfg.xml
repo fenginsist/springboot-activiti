@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+    <!--druid数据源-->
+    <bean id ="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!--采用内存数据库-->
+         <!--<property name="url" value="jdbc:h2:mem:activiti;DB_CLOSE_DELAY=1000;MVCC=TRUE" />-->
+         <!--<property name="driverClassName" value="org.h2.Driver" />-->
+         <!--<property name="username" value="sa" />-->
+         <!--<property name="password" value="" />-->
+
+        <!--自己本地的数据库-->
+        <property name="url" value="jdbc:mysql://192.168.131.168:3306/feng_activiti?useUnicode=true&amp;characterEncoding=utf-8&amp;usessl=false" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="username" value="root" />
+        <property name="password" value="Dataadt123!" />
+        <property name="initialSize" value="1"/>
+        <property name="maxActive" value="10"/>
+        <property name="filters" value="stat,slf4j"/>
+    </bean>
+
+    <!--activiti单独运行的ProcessEngine配置对象(processEngineConfiguration),使用单独启动方式
+            默认情况下：bean的id=processEngineConfiguration
+        -->
+
+    <bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+        <!--代表数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!-- <property name="jdbcDriver" value="com.mysql.jdbc.Driver" />
+         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/activiti" />
+         <property name="jdbcUsername" value="root" />
+         <property name="jdbcPassword" value="root" />-->
+        <!--代表是否生成表结构-->
+        <property name="databaseSchemaUpdate" value="true"/>
+    </bean>
+
+</beans>
